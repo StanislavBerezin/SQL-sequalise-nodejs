@@ -2,5 +2,7 @@ const mainController = require('../controllers/mainControl')
 
 module.exports = (app) => {
 
-    app.post('/post', mainController.test)
+    app.get('/getAllProducts', mainController.fetchAllProducts)
+    app.post('/insertNew', mainController.addProduct)
+    app.get('/getProduct/:prodId', mainController.getProduct)
 }
