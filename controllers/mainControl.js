@@ -3,17 +3,14 @@ const Product = require('../models/product')
 module.exports = {
     async fetchAllProducts(req, res) {
         try {
-            let result = await Product.fetchAll()
-                .then(([row, fieldData]) => {
-                    console.log(row)
-                })
+            let result = await Product.findAll()
+            if (!result) throw "Couldnt search for items"
+            console.log(result)
             res.send(result)
         } catch (e) {
             console.log(e)
             res.send(e)
         }
-
-
     },
 
     async addProduct(req, res) {
@@ -25,13 +22,16 @@ module.exports = {
                 imageUrl,
             } = req.body
 
-            const product = await new Product(null, title, description, imageUrl, price)
-            console.log('before save')
-            product.save().then(() => {
-                res.send("Product has been saved")
-            }).catch((e) => {
-                console.log(e)
+            let newItem = await Product.create({
+                title,
+                imageUrl,
+                description,
+                price
             })
+            if (!newItem) throw "Something happened"
+            console.log('created new item')
+            res.send(newItem)
+
 
 
         } catch (e) {
@@ -45,10 +45,11 @@ module.exports = {
             const {
                 prodId
             } = req.params
-
-            let found = await Product.findById(prodId)
+            // FindAll with where is also usable
+            // Product.findAll({where: {id: prodId}})
+            let found = await Product.findByPk(prodId)
             if (found) {
-                res.send(found[0])
+                res.send(found)
             }
 
         } catch (err) {

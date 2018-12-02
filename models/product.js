@@ -1,38 +1,27 @@
-const db = require('../db/connection')
+const Sequelize = require('sequelize')
 
-module.exports = class Product {
-    constructor(id, title, imageUrl, description, price) {
-        this.id = id
-        this.title = title
-        this.price = price
-        this.description = description
-        this.imageUrl = imageUrl
+const sequelize = require('../db/connection')
 
+const Product = sequelize.define('product', {
+    id: {
+        type: Sequelize.INTEGER,
+        autoIncrement: true,
+        allowNull: false,
+        primaryKey: true
+    },
+    title: Sequelize.STRING,
+    price: {
+        type: Sequelize.DOUBLE,
+        allowNull: false,
+    },
+    imageUrl: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    description: {
+        type: Sequelize.STRING,
+        allowNull: false
     }
+})
 
-    save() {
-        // ? , ? , ? ,? and array after comma is remove chances of sql injections etc
-        try {
-            return db.execute(
-                "INSERT INTO products (title, description, imageUrl, price) VALUES (?, ?, ?, ?)",
-                [this.title, this.description, this.imageUrl, this.price])
-        } catch (e) {
-            console.log(e)
-        }
-    }
-    static deleteById(id) {
-
-    }
-    static fetchAll() {
-        try {
-            return db.execute("SELECT * from products");
-        } catch (err) {
-            return console.log(`error ${err}`)
-        }
-
-
-    }
-    static findById(id) {
-        return db.execute('SELECT * from products where products.id = ?', [id])
-    }
-}
+module.exports = Product
