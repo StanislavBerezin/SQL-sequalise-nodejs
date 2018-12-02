@@ -31,9 +31,6 @@ module.exports = {
             if (!newItem) throw "Something happened"
             console.log('created new item')
             res.send(newItem)
-
-
-
         } catch (e) {
             res.send(e)
         }
@@ -55,7 +52,17 @@ module.exports = {
         } catch (err) {
             res.send(err)
         }
+    },
 
+    async editItem(req, res) {
+        const {
+            editMode
+        } = req.query
+        const {
+            prodId
+        } = req.params
+
+        let item = await Product.findByPk(prodId)
 
     }
 }
