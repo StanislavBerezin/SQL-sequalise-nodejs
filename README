@@ -1,1 +1,14 @@
 # Some functionality for Node and SQL interaction
+
+There are 2 branches
+1) Utilises mysql database direction
+2) Utilises sequalise
+
+
+# End points
+- Get item (GET)
+- Add item (POST)
+- Fetch all items (GET)
+
+requires you to setup DB in mysql workbench add a table with
+Price, Description, imageUrl, Title
