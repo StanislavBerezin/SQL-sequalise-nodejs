@@ -55,14 +55,38 @@ module.exports = {
     },
 
     async editItem(req, res) {
-        const {
-            editMode
-        } = req.query
-        const {
-            prodId
-        } = req.params
+        try {
+            const {
+                title,
+                price,
+                description,
+                imageUrl,
+            } = req.body
+            const {
+                prodId
+            } = req.params
 
-        let item = await Product.findByPk(prodId)
+
+            let updatedProduct = await Product.findByPk(prodId).then(product => {
+                product.title = title,
+                    product.price = price,
+                    product.imageUrl = imageUrl,
+                    product.description = description
+                return product.save()
+            }).catch(e => {
+                throw "Wrong parameteres"
+            })
+
+            res.send(updatedProduct);
+
+        } catch (e) {
+            res.send(e)
+        }
+
+
+    },
+
+    async deleteItem(req, res) {
 
     }
 }
