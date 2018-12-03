@@ -6,4 +6,5 @@ module.exports = (app) => {
     app.post('/insertNew', mainController.addProduct)
     app.get('/getProduct/:prodId', mainController.getProduct)
     app.post('/editItem/:prodId', mainController.editItem)
+    app.post('/deleteItem/:prodId', mainController.deleteItem)
 }
